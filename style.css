@@ -1,0 +1,83 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  background-color: #f4f4f4;
+  padding: 10px 0;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.puzzle-container {
+  margin-right: 20px;
+}
+
+#puzzle-grid {
+  border-collapse: collapse;
+}
+
+#puzzle-grid td {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+#puzzle-grid td input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  background: none;
+  outline: none;
+}
+
+#puzzle-grid td[data-number]::before {
+  content: attr(data-number);
+  font-size: 12px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  color: #333;
+}
+
+.clues-container {
+  text-align: left;
+  max-width: 300px;
+}
+
+.clues h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.clues h3 {
+  margin: 10px 0 5px;
+  font-size: 16px;
+}
+
+.clues ul {
+  list-style: none;
+  padding: 0;
+}
+
+.clues ul li {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+footer {
+  margin-top: 20px;
+}

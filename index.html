@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        #puzzle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #puzzle {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .crossword-footer-message {
+            display: none !important;
+        }
+
+        #leaderboard {
+            margin: 40px auto;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        #leaderboard th, #leaderboard td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #leaderboard th {
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        #leaderboard tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #leaderboard tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        #leaderboard caption {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+  <!-- Include the CryptoJS library for hashing the user id before sending it to the PuzzleMe server. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <!-- Include the javascript library for embedding this puzzle. -->
+  <script id="pm-script" src="https://amuselabs.com/pmm/js/puzzleme-embed.js"></script>
+  <!-- Specify the Amuse Labs server name from where the puzzles will be served and trigger the embed flow. -->
+  <script>
+      PM_Config.PM_BasePath = "https://amuselabs.com/pmm/";
+  </script>
+  <!-- Specifies the puzzle to be embedded on the page. -->
+  <div class="pm-embed-div" data-id="fbc99476" data-set="cc74750f6f1d744d870b66c4a5a5221c1d215d94d08045ddc17028a670ffb415" data-puzzleType="crossword" data-height="700px" data-mobileMargin="10px"></div>
+
+  <!-- Leaderboard Section -->
+  <table id="leaderboard">
+      <caption>Leaderboard</caption>
+      <thead>
+          <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Score</th>
+              <th>Time Taken</th>
+              <th>Progress</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Data will be dynamically added here -->
+      </tbody>
+  </table>
+
+  <script>
+      // Sample CSV data
+      const csvData = `UID,Series,Id,Start Timestamp,End Timestamp,Progress,Score,Server Time Taken,On Screen Time Taken,Words Correct,Boxes Correct,Play ID
+      2d4e739178526ae34ab2c007378946160ce96b5e0038a778663060b9eb9e5ba1,cc74750f6f1d744d870b66c4a5a5221c1d215d94d08045ddc17028a670ffb415,fbc99476,2024-11-17 20:36:09,2024-11-17 20:47:00,Completed correctly,265,00:10:51,00:03:11,0,0,378353ad-9cd3-4b41-98e0-91ca5e682e54`;
+
+      // Parse CSV data into an array of objects
+      function parseCSV(data) {
+          const rows = data.trim().split("\n");
+          const headers = rows.shift().split(",");
+          return rows.map(row => {
+              const values = row.split(",");
+              return headers.reduce((obj, header, index) => {
+                  obj[header.trim()] = values[index].trim();
+                  return obj;
+              }, {});
+          });
+      }
+
+      // Generate leaderboard
+      function generateLeaderboard(data) {
+          const leaderboard = document.querySelector("#leaderboard tbody");
+          data.sort((a, b) => b.Score - a.Score); // Sort by score descending
+          data.forEach((entry, index) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                  <td>${index + 1}</td>
+                  <td>Nestor</td> <!-- Replace UID with NESTOR -->
+                  <td>${entry.Score}</td>
+                  <td>${entry["Server Time Taken"]}</td>
+                  <td>${entry.Progress}</td>
+              `;
+              leaderboard.appendChild(row);
+          });
+      }
+
+      // Parse and populate leaderboard
+      const leaderboardData = parseCSV(csvData);
+      generateLeaderboard(leaderboardData);
+  </script>
+</body>
+</html>
